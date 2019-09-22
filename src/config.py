@@ -2,3 +2,5 @@
 
 width = 800
 height = 600
+fontname = 'Times New Roman'
+fontsize = 32
