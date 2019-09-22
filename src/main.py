@@ -30,10 +30,9 @@ def main_menu(surface):
                                   True,
                                   colors.white)
 
-    option_selected = False
     selected = 0
 
-    while not option_selected:
+    while True:
         surface.fill(colors.black)
 
         for i, option in enumerate(options_rendered):
@@ -57,11 +56,9 @@ def main_menu(surface):
                 elif event.key == pygame.K_DOWN:
                     selected = (selected + 1 + k) % k
                 elif event.key == pygame.K_RETURN:
-                    option_selected = True
+                    option_functions[selected](surface)
 
         pygame.display.flip()
-
-    option_functions[selected](surface)
 
     return
 

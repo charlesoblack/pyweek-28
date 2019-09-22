@@ -92,6 +92,9 @@ def gameplay(surface):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 quit_game(surface)
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    return
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 issue_command(event.pos)
 
