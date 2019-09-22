@@ -87,7 +87,7 @@ def gameplay(surface):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 quit_game(surface)
-            elif event.type == pygame.MOUSEBUTTONDOWN:
+            elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 create_tower(event.pos)
 
         pygame.display.flip()
