@@ -1,9 +1,11 @@
 #! /usr/bin/env python3
 
+import pygame
+import config
+
 
 def continue_game(surface):
     import pickle
-    import config
 
     # make sure that we actually have the data if we select this
 
@@ -18,9 +20,7 @@ def continue_game(surface):
 
 
 def quit_game(surface):
-    from pygame import quit
     from sys import exit
-    import config
     import pickle
     import os
 
@@ -29,16 +29,14 @@ def quit_game(surface):
     with open('../data/saved_data.pckl', 'wb') as f:
         pickle.dump(f, config.data, protocol=-1)
 
-    quit()
+    pygame.quit()
     exit()
 
     return
 
 
 def gameplay(surface):
-    import config
     import colors
-    import pygame
 
     data = config.data
 
@@ -70,4 +68,15 @@ def blit_tower(surface, tower):
 
 
 def blit_score(surface, score):
-    pass
+    import colors
+
+    font = pygame.font.SysFont(config.fontname, config.fontsize)
+
+    score_rendered = font.render(str(score),
+                                 True,
+                                 colors.gray)
+    score_rect = score_rendered.get_rect(topleft=(10, 10))
+
+    surface.blit(score_rendered, score_rect)
+
+    return

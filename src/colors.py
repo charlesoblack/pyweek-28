@@ -5,6 +5,7 @@ from pygame import Color
 
 black = Color(20, 20, 20)
 white = Color(240, 240, 240)
+gray = Color(120, 120, 120)
 
 red_1 = Color(240, 20, 20)
 red_2 = Color(240, 120, 120)
