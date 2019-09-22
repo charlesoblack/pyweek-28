@@ -9,3 +9,7 @@ class Tower(object):
         self.damage = 1
         self.level = 1
         self.type = tower_type
+
+    @property
+    def pos(self):
+        return (self.x, self.y)

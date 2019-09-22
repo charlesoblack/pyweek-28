@@ -141,7 +141,15 @@ def create_tower(pos):
 
     data = config.data
 
-    tower_instance = Tower(pos, 'std')
+    snapped_pos = (pos[0] - pos[0] % 32,
+                   pos[1] - pos[1] % 32)
+
+    # check if there is a tower already in that position
+    for tower in data['towers']:
+        if tower.pos == snapped_pos:
+            return
+
+    tower_instance = Tower(snapped_pos, 'std')
     data['towers'].append(tower_instance)
 
     return
