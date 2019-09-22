@@ -12,6 +12,7 @@ bggreen = Color(150, 240, 150)
 bgyellow = Color(240, 220, 0)
 bggray = Color(215, 215, 215)
 bgred = Color(240, 150, 150)
+shots = Color(255, 0, 255)
 
 red_1 = Color(240, 20, 20)
 red_2 = Color(240, 120, 120)

@@ -134,6 +134,9 @@ def gameplay(surface):
                          enemies[data['wave']],
                          game_map)
 
+            blit_shots(surface,
+                       data['towers'])
+
         if config.wave_active and all(enemy.dead
                                       for enemy in config.active_enemies):
             config.wave_active = False
@@ -160,6 +163,13 @@ def gameplay(surface):
 
         clock.tick(60)
         pygame.display.flip()
+
+
+def blit_shots(surface, towers):
+    for tower in towers:
+        tower.find_enemy(config.active_enemies)
+        tower.shoot(surface)
+    return
 
 
 def blit_next_wave(surface):
@@ -218,8 +228,8 @@ def blit_level(surface, tiles, game_map):
 
 def blit_tower(surface, tower_img, tower):
 
-    tower_loc = tower_img.get_rect(topleft=(tower.x * 32 + 50,
-                                            tower.y * 32 + 50))
+    tower_loc = tower_img.get_rect(topleft=(tower.x_converted,
+                                            tower.y_converted))
 
     surface.blit(tower_img, tower_loc)
 
@@ -234,7 +244,7 @@ def blit_enemies(surface, enemy_imgs, enemies, game_map):
 
     if enemies:
         if (not config.active_enemies or
-                config.active_enemies[-1].last_move == 0):
+                config.active_enemies[-1].last_action == 0):
             config.active_enemies.append(Enemy(entrance_loc, enemies.pop(0)))
     for enemy in config.active_enemies:
         if not enemy.dead:

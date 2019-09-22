@@ -1,20 +1,20 @@
 #! /usr/bin/env python3
 
+import config
+import base
 
-class Enemy(object):
 
-    def __init__(self, pos, enemy_type):
-        self.x = pos[0]
-        self.y = pos[1]
-        self.type = enemy_type
+class Enemy(base.BaseEntity):
+
+    def __init__(self, *params):
+        super().__init__(*params)
         self.dead = False
-        self.last_move = 0
 
     def move_forward(self, game_map):
         if self.dead:
             return
-        if self.last_move < 10:
-            self.last_move += 1
+        if self.last_action < 30:
+            self.last_action += 1
             return
 
         tile = game_map.raw[self.y][self.x]
@@ -39,5 +39,8 @@ class Enemy(object):
 
         if game_map.raw[self.y][self.x] == 'exit':
             self.dead = True
+            config.data['core'] -= 1
 
-        self.last_move = 0
+        self.last_action = 0
+
+        return
