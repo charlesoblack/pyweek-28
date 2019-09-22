@@ -36,14 +36,21 @@ def quit_game(surface):
 
 
 def gameplay(surface):
-    # import config
+    import config
     import colors
     import pygame
 
-    # data = config.data
+    data = config.data
 
     while True:
         surface.fill(colors.black)
+
+        blit_level(surface, data['level'])
+
+        for tower in data['towers']:
+            blit_tower(surface, tower)
+
+        blit_score(surface, data['score'])
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -52,3 +59,15 @@ def gameplay(surface):
                 pass
 
         pygame.display.flip()
+
+
+def blit_level(surface, level):
+    pass
+
+
+def blit_tower(surface, tower):
+    pass
+
+
+def blit_score(surface, score):
+    pass
