@@ -86,6 +86,7 @@ def gameplay(surface):
             blit_tower(surface, tower_img, tower)
 
         blit_score(surface, data['score'])
+        blit_money(surface, data['money'])
 
         blit_wave_button(surface, data['wave'])
 
@@ -167,6 +168,27 @@ def blit_score(surface, score):
 
     surface.blit(box, box_rect)
     surface.blit(score_rendered, score_rect)
+
+    return
+
+
+def blit_money(surface, money):
+
+    font = pygame.font.SysFont(config.fontname, config.fontsize)
+
+    box = pygame.Surface((160, font.get_linesize()))
+    box.fill(colors.bgyellow)
+
+    box_rect = box.get_rect(midtop=(config.width // 2,
+                                    10))
+
+    money_rendered = font.render('Money: {}'.format(money),
+                                 True,
+                                 colors.black)
+    money_rect = money_rendered.get_rect(midtop=box_rect.midtop)
+
+    surface.blit(box, box_rect)
+    surface.blit(money_rendered, money_rect)
 
     return
 
