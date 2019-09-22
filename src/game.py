@@ -88,6 +88,7 @@ def gameplay(surface):
                }
 
     game_map = parse_map(data['level'])
+    clock = pygame.time.Clock()
 
     while True:
         surface.fill(colors.black)
@@ -107,7 +108,10 @@ def gameplay(surface):
         blit_next_wave(surface)
 
         if config.wave_active:
-            blit_enemies(surface, enemy_imgs, enemies[data['wave']])
+            blit_enemies(surface,
+                         enemy_imgs,
+                         enemies[data['wave']],
+                         game_map)
 
         if config.wave_active and all(enemy.dead
                                       for enemy in config.active_enemies):
@@ -133,6 +137,7 @@ def gameplay(surface):
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 issue_command(event.pos)
 
+        clock.tick(60)
         pygame.display.flip()
 
 
@@ -241,18 +246,19 @@ def blit_money(surface, money):
     return
 
 
-def blit_enemies(surface, enemy_imgs, enemies):
+def blit_enemies(surface, enemy_imgs, enemies, game_map):
     from enemy import Enemy
 
-    entrance_loc = (0, 0)
+    entrance_loc = (game_map.entrance[0],
+                    game_map.entrance[1])
 
     if enemies:
         config.active_enemies.append(Enemy(entrance_loc, enemies.pop(0)))
     for enemy in config.active_enemies:
         if not enemy.dead:
             surface.blit(enemy_imgs[enemy.type],
-                         pygame.Rect(enemy.x,
-                                     enemy.y,
+                         pygame.Rect(enemy.x * 32 + 50,
+                                     enemy.y * 32 + 50,
                                      enemy_imgs[enemy.type].get_width(),
                                      enemy_imgs[enemy.type].get_height()))
     return
@@ -349,7 +355,7 @@ def parse_map(level):
                     tile = 'exit'
 
             if tile in ('entrance', 'exit'):
-                setattr(game_map, tile, (num, charnum))
+                setattr(game_map, tile, (charnum, num))
 
             row.append(tile)
         game_map.raw.append(row)
