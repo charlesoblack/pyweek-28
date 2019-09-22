@@ -3,6 +3,7 @@
 import pygame
 import colors
 import base
+import config
 
 
 class Tower(base.BaseEntity):
@@ -33,16 +34,17 @@ class Tower(base.BaseEntity):
 
     def shoot(self, surface):
         if self.current_enemy is not None:
-            if self.last_action < 10:
+            if self.last_action < config.game_speed:
                 self.last_action += 1
                 return
 
+            tilesize = config.tile_size
             pygame.draw.line(surface,
                              colors.shots,
-                             (self.x_converted + 16,
-                              self.y_converted + 16),
-                             (self.current_enemy.x_converted + 16,
-                              self.current_enemy.y_converted + 16),
+                             (self.x_converted + tilesize // 2,
+                              self.y_converted + tilesize // 2),
+                             (self.current_enemy.x_converted + tilesize // 2,
+                              self.current_enemy.y_converted + tilesize // 2),
                              2)
 
             self.current_enemy.take_dmg(self.damage)
@@ -51,3 +53,6 @@ class Tower(base.BaseEntity):
             self.last_action = 0
 
         return
+
+    def upgrade(self):
+        pass

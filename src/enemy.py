@@ -21,7 +21,7 @@ class Enemy(base.BaseEntity):
     def move_forward(self):
         if self.dead:
             return
-        if self.last_action < 30:
+        if self.last_action < 3 * config.game_speed:
             self.last_action += 1
             return
 

@@ -214,13 +214,18 @@ def blit_info(surface, pos, color, text):
 
 def blit_level(surface, tiles):
 
-    tile_loc = pygame.Rect(50, 50, 32, 32)
+    tile_loc = pygame.Rect(config.offset_u,
+                           config.offset_l,
+                           config.tile_size,
+                           config.tile_size)
 
     for row in config.game_map.raw:
         for tile in row:
             surface.blit(tiles[tile], tile_loc)
-            tile_loc.move_ip(32, 0)
-        tile_loc.move_ip(-32 * len(row), 32)
+            tile_loc.move_ip(config.tile_size,
+                             0)
+        tile_loc.move_ip(-config.tile_size * len(row),
+                         config.tile_size)
 
     return
 
@@ -262,8 +267,13 @@ def issue_command(mouse_pos):
     font = pygame.font.SysFont(config.fontname, config.fontsize)
     linesize = font.get_linesize()
 
-    if (82 <= mouse_pos[0] <= width - 82 and
-            82 <= mouse_pos[1] <= height - 82):
+    offset_l = config.offset_l + config.tile_size
+    offset_r = config.offset_r - config.tile_size
+    offset_u = config.offset_u + config.tile_size
+    offset_d = config.offset_d - config.tile_size
+
+    if (offset_l <= mouse_pos[0] <= offset_r and
+            offset_u <= mouse_pos[1] <= offset_d):
         create_tower(mouse_pos)
     if ((width // 2 - 160 <= mouse_pos[0] <= width // 2 + 160) and
             height - linesize - 10 <= mouse_pos[1] <= height - 10 and
@@ -278,12 +288,13 @@ def create_tower(pos):
 
     data = config.data
 
-    snapped_pos = ((pos[0] - 50) // 32,
-                   (pos[1] - 50) // 32)
+    snapped_pos = ((pos[0] - config.offset_l) // config.tile_size,
+                   (pos[1] - config.offset_u) // config.tile_size)
 
     # check if there is a tower already in that position
     for tower in data['towers']:
         if tower.pos == snapped_pos:
+            tower.upgrade()
             return
 
     if (data['money'] >= 10 and

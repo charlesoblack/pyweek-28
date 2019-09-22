@@ -1,5 +1,7 @@
 #! /usr/bin/env python3
 
+import config
+
 
 class BaseEntity(object):
 
@@ -14,8 +16,8 @@ class BaseEntity(object):
 
     @property
     def x_converted(self):
-        return self.x * 32 + 50
+        return self.x * config.tile_size + config.offset_l
 
     @property
     def y_converted(self):
-        return self.y * 32 + 50
+        return self.y * config.tile_size + config.offset_u
