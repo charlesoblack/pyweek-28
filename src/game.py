@@ -101,7 +101,7 @@ def blit_level(surface, tiles, level):
 
     game_map = parse_map(game_map_file)
 
-    tile_loc = pygame.Rect(10, 10, 32, 32)
+    tile_loc = pygame.Rect(50, 50, 32, 32)
 
     for row in game_map:
         for tile in row:
@@ -149,7 +149,7 @@ def create_tower(pos):
 
 def parse_map(filename):
     with open(filename, 'r') as f:
-        raw_data = f.readlines()
+        raw_data = f.read().splitlines()
 
     game_map = []
 
@@ -176,7 +176,7 @@ def parse_map(filename):
                     tile = 'entrance'
                 elif character == '^':
                     tile = 'exit'
-            elif num == len(raw_data):
+            elif num == len(raw_data) - 1:
                 if character == '^':
                     tile = 'entrance'
                 elif character == 'v':
@@ -186,7 +186,7 @@ def parse_map(filename):
                     tile = 'entrance'
                 elif character == '<':
                     tile = 'exit'
-            elif charnum == len(line):
+            elif charnum == len(line) - 1:
                 if character == '<':
                     tile = 'entrance'
                 if character == '>':
