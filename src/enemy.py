@@ -18,14 +18,14 @@ class Enemy(base.BaseEntity):
     def dead(self):
         return self.health <= 0
 
-    def move_forward(self, game_map):
+    def move_forward(self):
         if self.dead:
             return
         if self.last_action < 30:
             self.last_action += 1
             return
 
-        tile = game_map.raw[self.y][self.x]
+        tile = config.game_map.raw[self.y][self.x]
 
         if tile == 'rpath':
             self.x += 1
@@ -36,7 +36,7 @@ class Enemy(base.BaseEntity):
         elif tile == 'upath':
             self.y -= 1
         elif tile == 'entrance':
-            if self.x == len(game_map.raw[self.y]):
+            if self.x == len(config.game_map.raw[self.y]):
                 self.x -= 1
             elif self.x == 0:
                 self.x += 1
@@ -45,7 +45,7 @@ class Enemy(base.BaseEntity):
             else:
                 self.y -= 1
 
-        if game_map.raw[self.y][self.x] == 'exit':
+        if config.game_map.raw[self.y][self.x] == 'exit':
             self.health = 0
             config.data['core'] -= 1
 

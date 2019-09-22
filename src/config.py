@@ -13,3 +13,4 @@ data = {'level': 1,
         }
 wave_active = False
 active_enemies = []
+game_map = None

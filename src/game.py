@@ -87,14 +87,14 @@ def gameplay(surface):
                    ],
                }
 
-    game_map = parse_map(data['level'])
+    parse_map(data['level'])
     clock = pygame.time.Clock()
     width_8 = config.width / 8
 
     while True:
         surface.fill(colors.black)
 
-        blit_level(surface, tiles, game_map)
+        blit_level(surface, tiles)
 
         # i need to figure out some efficiency stuff here because
         # this is ridiculous
@@ -131,8 +131,7 @@ def gameplay(surface):
         if config.wave_active:
             blit_enemies(surface,
                          enemy_imgs,
-                         enemies[data['wave']],
-                         game_map)
+                         enemies[data['wave']])
 
             blit_shots(surface,
                        data['towers'])
@@ -146,11 +145,11 @@ def gameplay(surface):
         if data['wave'] > 10:
             data['wave'] = 0
             data['level'] += 1
-            game_map = parse_map(data['level'])
+            parse_map(data['level'])
 
         if config.wave_active:
             for enemy in config.active_enemies:
-                enemy.move_forward(game_map)
+                enemy.move_forward()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -213,11 +212,11 @@ def blit_info(surface, pos, color, text):
     return
 
 
-def blit_level(surface, tiles, game_map):
+def blit_level(surface, tiles):
 
     tile_loc = pygame.Rect(50, 50, 32, 32)
 
-    for row in game_map.raw:
+    for row in config.game_map.raw:
         for tile in row:
             surface.blit(tiles[tile], tile_loc)
             tile_loc.move_ip(32, 0)
@@ -236,11 +235,11 @@ def blit_tower(surface, tower_img, tower):
     return
 
 
-def blit_enemies(surface, enemy_imgs, enemies, game_map):
+def blit_enemies(surface, enemy_imgs, enemies):
     from enemy import Enemy
 
-    entrance_loc = (game_map.entrance[0],
-                    game_map.entrance[1])
+    entrance_loc = (config.game_map.entrance[0],
+                    config.game_map.entrance[1])
 
     if enemies:
         if (not config.active_enemies or
@@ -297,6 +296,7 @@ def create_tower(pos):
 
 def parse_map(level):
     import maps
+
     game_map_file = '../assets/maps/map_{}.txt'.format(level)
 
     # for testing purposes
@@ -352,4 +352,6 @@ def parse_map(level):
             row.append(tile)
         game_map.raw.append(row)
 
-    return game_map
+    config.game_map = game_map
+
+    return
