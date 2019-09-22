@@ -43,10 +43,38 @@ def gameplay(surface):
     tower_img = pygame.image.load('../assets/tiles/tower/wR.bmp').convert()
     tower_img.set_colorkey(colors.colorkey)
 
+    wall_tile = pygame.image.load('../assets/tiles/floor/ \
+                                   dngn_rock_wall_00.bmp').convert()
+    floor_tile = pygame.image.load('../assets/tiles/floor/ \
+                                    dngn_floor.bmp').convert()
+    path_tile = pygame.image.load('../assets/tiles/floor/ \
+                                   dngn_floor_lair.bmp').convert()
+    water_tile = pygame.image.load('../assets/tiles/floor/ \
+                                    dngn_shallow_water.bmp').convert()
+    entrance_tile = pygame.image.load('../assets/tiles/floor/ \
+                                       dngn_enter_abyss.bmp').convert()
+    exit_tile = pygame.image.load('../assets/tiles/floor/ \
+                                   dngn_exit.bmp').convert()
+
+    wall_tile.set_colorkey(colors.colorkey)
+    floor_tile.set_colorkey(colors.colorkey)
+    path_tile.set_colorkey(colors.colorkey)
+    water_tile.set_colorkey(colors.colorkey)
+    entrance_tile.set_colorkey(colors.colorkey)
+    exit_tile.set_colorkey(colors.colorkey)
+
+    tiles = {'wall': wall_tile,
+             'floor': floor_tile,
+             'path': path_tile,
+             'water': water_tile,
+             'entrance': entrance_tile,
+             'exit': exit_tile,
+             }
+
     while True:
         surface.fill(colors.black)
 
-        blit_level(surface, data['level'])
+        blit_level(surface, tiles, data['level'])
 
         for tower in data['towers']:
             blit_tower(surface, tower_img, tower)
@@ -62,7 +90,22 @@ def gameplay(surface):
         pygame.display.flip()
 
 
-def blit_level(surface, level):
+def blit_level(surface, tiles, level):
+    game_map_file = '../assets/maps/map_{}.txt'.format(level)
+
+    # for testing purposes
+    game_map_file = '../assets/maps/test.txt'
+
+    game_map = parse_map(game_map_file)
+
+    tile_loc = pygame.Rect(10, 10, 32, 32)
+
+    for row in game_map:
+        for tile in row:
+            tile_loc = tile_loc.move_ip(32, 0)
+            surface.blit(tiles[tile], tile_loc)
+        tile_loc.move_ip(-32 * len(row), 32)
+
     pass
 
 
