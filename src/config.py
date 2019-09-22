@@ -1,7 +1,7 @@
 #! /usr/bin/env python3
 
-width = 1200
-height = 900
+width = 700
+height = 700
 fontname = 'Times New Roman'
 fontsize = 32
 data = {'level': 1,
