@@ -17,13 +17,30 @@ def continue_game(surface):
     return
 
 
-def gameplay(surface):
-    pass
-
-
 def quit_game(surface):
     from pygame import quit
     from sys import exit
 
     quit()
     exit()
+
+    return
+
+
+def gameplay(surface):
+    # import config
+    import colors
+    import pygame
+
+    # data = config.data
+
+    while True:
+        surface.fill(colors.black)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                quit_game(surface)
+            elif event.type == pygame.KEYDOWN:
+                pass
+
+        pygame.display.flip()
