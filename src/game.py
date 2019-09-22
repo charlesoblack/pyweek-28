@@ -286,7 +286,8 @@ def create_tower(pos):
         if tower.pos == snapped_pos:
             return
 
-    if data['money'] >= 10:
+    if (data['money'] >= 10 and
+            config.game_map.raw[snapped_pos[1]][snapped_pos[0]] == 'floor'):
         tower_instance = Tower(snapped_pos, 'std')
         data['towers'].append(tower_instance)
         data['money'] = data['money'] - 10
