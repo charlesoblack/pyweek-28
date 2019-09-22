@@ -7,4 +7,5 @@ fontsize = 32
 data = {'level': 1,
         'score': 0,
         'towers': [],
+        'money': 50,
         }

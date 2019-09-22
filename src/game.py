@@ -56,8 +56,8 @@ def gameplay(surface):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 quit_game(surface)
-            elif event.type == pygame.KEYDOWN:
-                pass
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                create_tower(event.pos)
 
         pygame.display.flip()
 
@@ -88,3 +88,18 @@ def blit_score(surface, score):
     surface.blit(score_rendered, score_rect)
 
     return
+
+
+def create_tower(pos):
+    from tower import Tower
+
+    data = config.data
+
+    tower_instance = Tower(pos, 'std')
+    data['towers'].append(tower_instance)
+
+    return
+
+
+def parse_map(filename):
+    pass
