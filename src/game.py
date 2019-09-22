@@ -1,11 +1,23 @@
 #! /usr/bin/env python3
 
 
-def new_game(surface):
-    pass
-
-
 def continue_game(surface):
+    import pickle
+    import config
+
+    # make sure that we actually have the data if we select this
+
+    with open('../data/saved_data.pckl', 'rb') as f:
+        data = pickle.load(f)
+
+    config.data = data
+
+    gameplay(surface)
+
+    return
+
+
+def gameplay(surface):
     pass
 
 
