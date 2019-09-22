@@ -8,7 +8,15 @@ class Enemy(base.BaseEntity):
 
     def __init__(self, *params):
         super().__init__(*params)
-        self.dead = False
+        self.health = 5
+
+    def take_dmg(self, amt):
+        self.health = max(0, self.health - amt)
+        return
+
+    @property
+    def dead(self):
+        return self.health <= 0
 
     def move_forward(self, game_map):
         if self.dead:
@@ -38,7 +46,7 @@ class Enemy(base.BaseEntity):
                 self.y -= 1
 
         if game_map.raw[self.y][self.x] == 'exit':
-            self.dead = True
+            self.health = 0
             config.data['core'] -= 1
 
         self.last_action = 0

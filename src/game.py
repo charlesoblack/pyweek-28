@@ -249,8 +249,8 @@ def blit_enemies(surface, enemy_imgs, enemies, game_map):
     for enemy in config.active_enemies:
         if not enemy.dead:
             surface.blit(enemy_imgs[enemy.type],
-                         pygame.Rect(enemy.x * 32 + 50,
-                                     enemy.y * 32 + 50,
+                         pygame.Rect(enemy.x_converted,
+                                     enemy.y_converted,
                                      enemy_imgs[enemy.type].get_width(),
                                      enemy_imgs[enemy.type].get_height()))
     return

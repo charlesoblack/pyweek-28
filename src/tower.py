@@ -26,9 +26,10 @@ class Tower(base.BaseEntity):
 
         distance = 0
         for enemy in enemies:
-            new_distance = self.distance(enemy)
-            if distance < new_distance <= self.range:
-                self.current_enemy = enemy
+            if not enemy.dead:
+                new_distance = self.distance(enemy)
+                if distance < new_distance <= self.range:
+                    self.current_enemy = enemy
 
     def shoot(self, surface):
         if self.current_enemy is not None:
@@ -44,6 +45,9 @@ class Tower(base.BaseEntity):
                               self.current_enemy.y_converted + 16),
                              2)
 
+            self.current_enemy.take_dmg(self.damage)
+            if self.current_enemy.dead:
+                self.current_enemy = None
             self.last_action = 0
 
         return
