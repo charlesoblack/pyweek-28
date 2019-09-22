@@ -43,18 +43,18 @@ def gameplay(surface):
     tower_img = pygame.image.load('../assets/tiles/tower/wR.bmp').convert()
     tower_img.set_colorkey(colors.colorkey)
 
-    wall_tile = pygame.image.load('../assets/tiles/floor/ \
-                                   dngn_rock_wall_00.bmp').convert()
-    floor_tile = pygame.image.load('../assets/tiles/floor/ \
-                                    dngn_floor.bmp').convert()
-    path_tile = pygame.image.load('../assets/tiles/floor/ \
-                                   dngn_floor_lair.bmp').convert()
-    water_tile = pygame.image.load('../assets/tiles/floor/ \
-                                    dngn_shallow_water.bmp').convert()
-    entrance_tile = pygame.image.load('../assets/tiles/floor/ \
-                                       dngn_enter_abyss.bmp').convert()
-    exit_tile = pygame.image.load('../assets/tiles/floor/ \
-                                   dngn_exit.bmp').convert()
+    wall_tile = pygame.image.load('../assets/tiles/floor/'
+                                  'dngn_rock_wall_00.bmp').convert()
+    floor_tile = pygame.image.load('../assets/tiles/floor/'
+                                   'dngn_floor.bmp').convert()
+    path_tile = pygame.image.load('../assets/tiles/floor/'
+                                  'dngn_floor_lair.bmp').convert()
+    water_tile = pygame.image.load('../assets/tiles/floor/'
+                                   'dngn_shallow_water.bmp').convert()
+    entrance_tile = pygame.image.load('../assets/tiles/floor/'
+                                      'dngn_enter_abyss.bmp').convert()
+    exit_tile = pygame.image.load('../assets/tiles/floor/'
+                                  'dngn_exit.bmp').convert()
 
     wall_tile.set_colorkey(colors.colorkey)
     floor_tile.set_colorkey(colors.colorkey)
@@ -65,7 +65,10 @@ def gameplay(surface):
 
     tiles = {'wall': wall_tile,
              'floor': floor_tile,
-             'path': path_tile,
+             'upath': path_tile,
+             'dpath': path_tile,
+             'lpath': path_tile,
+             'rpath': path_tile,
              'water': water_tile,
              'entrance': entrance_tile,
              'exit': exit_tile,
@@ -102,8 +105,8 @@ def blit_level(surface, tiles, level):
 
     for row in game_map:
         for tile in row:
-            tile_loc = tile_loc.move_ip(32, 0)
             surface.blit(tiles[tile], tile_loc)
+            tile_loc.move_ip(32, 0)
         tile_loc.move_ip(-32 * len(row), 32)
 
     pass
@@ -145,4 +148,51 @@ def create_tower(pos):
 
 
 def parse_map(filename):
-    pass
+    with open(filename, 'r') as f:
+        raw_data = f.readlines()
+
+    game_map = []
+
+    for num, line in enumerate(raw_data):
+        row = []
+        for charnum, character in enumerate(line):
+            if character == '#':
+                tile = 'wall'
+            elif character == 'w':
+                tile = 'water'
+            elif character == '.':
+                tile = 'floor'
+            elif character == 'v':
+                tile = 'dpath'
+            elif character == '^':
+                tile = 'upath'
+            elif character == '>':
+                tile = 'rpath'
+            elif character == '<':
+                tile = 'lpath'
+
+            if num == 0:
+                if character == 'v':
+                    tile = 'entrance'
+                elif character == '^':
+                    tile = 'exit'
+            elif num == len(raw_data):
+                if character == '^':
+                    tile = 'entrance'
+                elif character == 'v':
+                    tile = 'exit'
+            elif charnum == 0:
+                if character == '>':
+                    tile = 'entrance'
+                elif character == '<':
+                    tile = 'exit'
+            elif charnum == len(line):
+                if character == '<':
+                    tile = 'entrance'
+                if character == '>':
+                    tile = 'exit'
+
+            row.append(tile)
+        game_map.append(row)
+
+    return game_map
