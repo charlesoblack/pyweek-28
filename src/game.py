@@ -2,6 +2,7 @@
 
 import pygame
 import config
+import colors
 
 
 def continue_game(surface):
@@ -36,9 +37,11 @@ def quit_game(surface):
 
 
 def gameplay(surface):
-    import colors
 
     data = config.data
+
+    tower_img = pygame.image.load('../assets/tiles/tower/wR.bmp').convert()
+    tower_img.set_colorkey(colors.colorkey)
 
     while True:
         surface.fill(colors.black)
@@ -46,7 +49,7 @@ def gameplay(surface):
         blit_level(surface, data['level'])
 
         for tower in data['towers']:
-            blit_tower(surface, tower)
+            blit_tower(surface, tower_img, tower)
 
         blit_score(surface, data['score'])
 
@@ -63,12 +66,17 @@ def blit_level(surface, level):
     pass
 
 
-def blit_tower(surface, tower):
-    pass
+def blit_tower(surface, tower_img, tower):
+
+    tower_loc = tower_img.get_rect(center=(tower.x,
+                                           tower.y))
+
+    surface.blit(tower_img, tower_loc)
+
+    return
 
 
 def blit_score(surface, score):
-    import colors
 
     font = pygame.font.SysFont(config.fontname, config.fontsize)
 
