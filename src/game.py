@@ -87,10 +87,12 @@ def gameplay(surface):
                    ],
                }
 
+    game_map = parse_map(data['level'])
+
     while True:
         surface.fill(colors.black)
 
-        blit_level(surface, tiles, data['level'])
+        blit_level(surface, tiles, game_map)
 
         # i need to figure out some efficiency stuff here because
         # this is ridiculous
@@ -113,8 +115,14 @@ def gameplay(surface):
             config.active_enemies = []
             data['wave'] += 1
 
-        # if config.wave_active:
-        #     for enemy in
+        if data['wave'] > 10:
+            data['wave'] = 0
+            data['level'] += 1
+            game_map = parse_map(data['level'])
+
+        if config.wave_active:
+            for enemy in config.active_enemies:
+                enemy.move_forward(game_map)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -168,13 +176,7 @@ def blit_wave_button(surface, wavenum):
     return
 
 
-def blit_level(surface, tiles, level):
-    game_map_file = '../assets/maps/map_{}.txt'.format(level)
-
-    # for testing purposes
-    game_map_file = '../assets/maps/test.txt'
-
-    game_map = parse_map(game_map_file)
+def blit_level(surface, tiles, game_map):
 
     tile_loc = pygame.Rect(50, 50, 32, 32)
 
@@ -245,7 +247,7 @@ def blit_enemies(surface, enemy_imgs, enemies):
     entrance_loc = (0, 0)
 
     if enemies:
-        config.active_enemies.append(Enemy(entrance_loc, enemies[0]))
+        config.active_enemies.append(Enemy(entrance_loc, enemies.pop(0)))
     for enemy in config.active_enemies:
         if not enemy.dead:
             surface.blit(enemy_imgs[enemy.type],
@@ -295,8 +297,13 @@ def create_tower(pos):
     return
 
 
-def parse_map(filename):
-    with open(filename, 'r') as f:
+def parse_map(level):
+    game_map_file = '../assets/maps/map_{}.txt'.format(level)
+
+    # for testing purposes
+    game_map_file = '../assets/maps/test.txt'
+
+    with open(game_map_file, 'r') as f:
         raw_data = f.read().splitlines()
 
     game_map = []

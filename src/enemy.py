@@ -8,3 +8,6 @@ class Enemy(object):
         self.y = pos[1]
         self.type = enemy_type
         self.dead = False
+
+    def move_forward(self, game_map):
+        pass
