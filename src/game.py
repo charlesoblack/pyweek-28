@@ -151,12 +151,18 @@ def blit_score(surface, score):
 
     font = pygame.font.SysFont(config.fontname, config.fontsize)
 
+    box = pygame.Surface((80, font.get_linesize()))
+    box.fill(colors.bggreen)
+
+    box_rect = box.get_rect(topright=(config.width - 10,
+                                      10))
+
     score_rendered = font.render(str(score),
                                  True,
-                                 colors.gray)
-    score_rect = score_rendered.get_rect(topright=(config.width - 10,
-                                                   10))
+                                 colors.black)
+    score_rect = score_rendered.get_rect(midtop=box_rect.midtop)
 
+    surface.blit(box, box_rect)
     surface.blit(score_rendered, score_rect)
 
     return
