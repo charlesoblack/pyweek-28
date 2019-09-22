@@ -39,12 +39,14 @@ def main_menu(surface):
         for i, option in enumerate(options_rendered):
             loc = (config.width // 2,
                    config.height // 2 + (i - 1) * linesize)
-            surface.blit(option, loc)
+            option_loc = option.get_rect(midtop=loc)
+            surface.blit(option, option_loc)
 
         selection_loc = (config.width * 0.4,
                          config.height // 2 + (selected - 1) * linesize)
 
-        surface.blit(selection_arrow, selection_loc)
+        surface.blit(selection_arrow,
+                     selection_arrow.get_rect(midtop=selection_loc))
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
