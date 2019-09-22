@@ -20,6 +20,14 @@ def continue_game(surface):
 def quit_game(surface):
     from pygame import quit
     from sys import exit
+    import config
+    import pickle
+    import os
+
+    os.makedirs('../data', exist_ok=True)
+
+    with open('../data/saved_data.pckl', 'wb') as f:
+        pickle.dump(f, config.data, protocol=-1)
 
     quit()
     exit()
