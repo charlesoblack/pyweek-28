@@ -3,6 +3,7 @@
 import pygame
 import config
 import colors
+import os
 
 
 def continue_game(surface):
@@ -23,7 +24,6 @@ def continue_game(surface):
 def quit_game(surface):
     from sys import exit
     import pickle
-    import os
 
     os.makedirs('../data', exist_ok=True)
 
@@ -74,6 +74,19 @@ def gameplay(surface):
              'exit': exit_tile,
              }
 
+    enemy_imgs = {}
+    for file in os.listdir('../assets/tiles/enemy/'):
+        img = pygame.image.load('../assets/tiles/enemy/{}'.format(file))
+        img = img.convert()
+        img.set_colorkey(colors.colorkey)
+        enemy_imgs[file[:-4]] = img
+
+    enemies = {1: ['butterfly3',
+                   #  'butterfly3',
+                   #  'butterfly4',
+                   ],
+               }
+
     while True:
         surface.fill(colors.black)
 
@@ -91,7 +104,17 @@ def gameplay(surface):
         blit_wave_button(surface, data['wave'])
         blit_next_wave(surface)
 
-        blit_enemies(surface)
+        if config.wave_active:
+            blit_enemies(surface, enemy_imgs, enemies[data['wave']])
+
+        if config.wave_active and all(enemy.dead
+                                      for enemy in config.active_enemies):
+            config.wave_active = False
+            config.active_enemies = []
+            data['wave'] += 1
+
+        # if config.wave_active:
+        #     for enemy in
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -216,8 +239,21 @@ def blit_money(surface, money):
     return
 
 
-def blit_enemies(surface):
-    pass
+def blit_enemies(surface, enemy_imgs, enemies):
+    from enemy import Enemy
+
+    entrance_loc = (0, 0)
+
+    if enemies:
+        config.active_enemies.append(Enemy(entrance_loc, enemies[0]))
+    for enemy in config.active_enemies:
+        if not enemy.dead:
+            surface.blit(enemy_imgs[enemy.type],
+                         pygame.Rect(enemy.x,
+                                     enemy.y,
+                                     enemy_imgs[enemy.type].get_width(),
+                                     enemy_imgs[enemy.type].get_height()))
+    return
 
 
 def issue_command(mouse_pos):
