@@ -10,6 +10,7 @@ colorkey = Color(71, 108, 108)
 bgblue = Color(150, 150, 240)
 bggreen = Color(150, 240, 150)
 bgyellow = Color(240, 220, 0)
+bggray = Color(215, 215, 215)
 
 red_1 = Color(240, 20, 20)
 red_2 = Color(240, 120, 120)

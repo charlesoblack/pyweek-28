@@ -1,7 +1,7 @@
 #! /usr/bin/env python3
 
 width = 700
-height = 700
+height = 800
 fontname = 'Arial'
 fontsize = 32
 data = {'level': 1,

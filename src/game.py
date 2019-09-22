@@ -89,6 +89,7 @@ def gameplay(surface):
         blit_money(surface, data['money'])
 
         blit_wave_button(surface, data['wave'])
+        blit_next_wave(surface)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -100,6 +101,26 @@ def gameplay(surface):
                 issue_command(event.pos)
 
         pygame.display.flip()
+
+
+def blit_next_wave(surface):
+    font = pygame.font.SysFont(config.fontname, config.fontsize)
+
+    box = pygame.Surface((320, font.get_linesize()))
+    box.fill(colors.bggray)
+
+    rect = box.get_rect(midtop=(config.width // 2,
+                                config.height - font.get_linesize() - 10))
+
+    text = font.render('Start next wave!',
+                       True,
+                       colors.black)
+    text_rect = text.get_rect(midtop=rect.midtop)
+
+    surface.blit(box, rect)
+    surface.blit(text, text_rect)
+
+    return
 
 
 def blit_wave_button(surface, wavenum):
