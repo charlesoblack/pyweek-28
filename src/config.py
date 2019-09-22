@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-width = 740
+width = 1000
 height = 800
 fontname = 'Arial'
 fontsize = 32
@@ -15,8 +15,9 @@ wave_active = False
 active_enemies = []
 game_map = None
 tile_size = 32
-offset_l = 50
-offset_r = width - offset_l
-offset_u = 50
-offset_d = offset_u + 20 * tile_size
+map_size = 20
+offset_l = width // 2 - map_size * tile_size // 2
+offset_r = width // 2 + map_size * tile_size // 2
+offset_u = height // 2 - map_size * tile_size // 2
+offset_d = height // 2 + map_size * tile_size // 2
 game_speed = 10

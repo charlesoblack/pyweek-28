@@ -214,8 +214,8 @@ def blit_info(surface, pos, color, text):
 
 def blit_level(surface, tiles):
 
-    tile_loc = pygame.Rect(config.offset_u,
-                           config.offset_l,
+    tile_loc = pygame.Rect(config.offset_l + config.tile_size // 2,
+                           config.offset_u,
                            config.tile_size,
                            config.tile_size)
 
