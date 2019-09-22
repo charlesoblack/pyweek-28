@@ -42,7 +42,7 @@ def main_menu(surface):
             surface.blit(option, loc)
 
         selection_loc = (config.width * 0.4,
-                         config.height // 2 + (i - 1) * linesize)
+                         config.height // 2 + (selected - 1) * linesize)
 
         surface.blit(selection_arrow, selection_loc)
 
