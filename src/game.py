@@ -93,7 +93,7 @@ def gameplay(surface):
             if event.type == pygame.QUIT:
                 quit_game(surface)
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                create_tower(event.pos)
+                issue_command(event.pos)
 
         pygame.display.flip()
 
@@ -165,6 +165,13 @@ def blit_score(surface, score):
     surface.blit(box, box_rect)
     surface.blit(score_rendered, score_rect)
 
+    return
+
+
+def issue_command(mouse_pos):
+    if (82 <= mouse_pos[0] <= config.width - 82 and
+            82 <= mouse_pos[1] <= config.height - 82):
+        create_tower(mouse_pos)
     return
 
 
