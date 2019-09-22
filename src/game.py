@@ -28,7 +28,7 @@ def quit_game(surface):
     os.makedirs('../data', exist_ok=True)
 
     with open('../data/saved_data.pckl', 'wb') as f:
-        pickle.dump(f, config.data, protocol=-1)
+        pickle.dump(config.data, f, protocol=-1)
 
     pygame.quit()
     exit()
