@@ -82,8 +82,8 @@ def gameplay(surface):
         enemy_imgs[file[:-4]] = img
 
     enemies = {1: ['butterfly3',
-                   #  'butterfly3',
-                   #  'butterfly4',
+                   'butterfly3',
+                   'butterfly4',
                    ],
                }
 
@@ -253,7 +253,9 @@ def blit_enemies(surface, enemy_imgs, enemies, game_map):
                     game_map.entrance[1])
 
     if enemies:
-        config.active_enemies.append(Enemy(entrance_loc, enemies.pop(0)))
+        if (not config.active_enemies or
+                config.active_enemies[-1].last_move == 0):
+            config.active_enemies.append(Enemy(entrance_loc, enemies.pop(0)))
     for enemy in config.active_enemies:
         if not enemy.dead:
             surface.blit(enemy_imgs[enemy.type],
