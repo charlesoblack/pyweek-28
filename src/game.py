@@ -105,8 +105,7 @@ def blit_wave_button(surface, wavenum):
     box = pygame.Surface((80, font.get_linesize()))
     box.fill(colors.bgblue)
 
-    box_rect = box.get_rect(topright=(config.width - 10,
-                                      10))
+    box_rect = box.get_rect(topleft=(10, 10))
 
     wave_rendered = font.render(str(wavenum),
                                 True,
@@ -155,7 +154,8 @@ def blit_score(surface, score):
     score_rendered = font.render(str(score),
                                  True,
                                  colors.gray)
-    score_rect = score_rendered.get_rect(topleft=(10, 10))
+    score_rect = score_rendered.get_rect(topright=(config.width - 10,
+                                                   10))
 
     surface.blit(score_rendered, score_rect)
 
