@@ -89,6 +89,7 @@ def gameplay(surface):
 
     game_map = parse_map(data['level'])
     clock = pygame.time.Clock()
+    width_8 = config.width / 8
 
     while True:
         surface.fill(colors.black)
@@ -101,10 +102,30 @@ def gameplay(surface):
         for tower in data['towers']:
             blit_tower(surface, tower_img, tower)
 
-        blit_score(surface, data['score'])
-        blit_money(surface, data['money'])
+        # wave number
+        blit_info(surface,
+                  (width_8, 10),
+                  colors.bgblue,
+                  'Wave {}'.format(data['wave']))
 
-        blit_wave_button(surface, data['wave'])
+        # money
+        blit_info(surface,
+                  (3 * width_8, 10),
+                  colors.bgyellow,
+                  'Money: {}'.format(data['money']))
+
+        # core
+        blit_info(surface,
+                  (5 * width_8, 10),
+                  colors.bgred,
+                  'Core: {}'.format(data['core']))
+
+        # score
+        blit_info(surface,
+                  (7 * width_8, 10),
+                  colors.bggreen,
+                  'Score: {}'.format(data['score']))
+
         blit_next_wave(surface)
 
         if config.wave_active:
@@ -161,22 +182,23 @@ def blit_next_wave(surface):
     return
 
 
-def blit_wave_button(surface, wavenum):
+def blit_info(surface, pos, color, text):
 
     font = pygame.font.SysFont(config.fontname, config.fontsize)
 
     box = pygame.Surface((160, font.get_linesize()))
-    box.fill(colors.bgblue)
+    box.fill(color)
 
-    box_rect = box.get_rect(topleft=(10, 10))
+    box_rect = box.get_rect(midtop=(round(pos[0]),
+                                    round(pos[1])))
 
-    wave_rendered = font.render('Wave {}'.format(wavenum),
+    text_rendered = font.render(text,
                                 True,
                                 colors.black)
-    wave_rect = wave_rendered.get_rect(midtop=box_rect.midtop)
+    text_rect = text_rendered.get_rect(midtop=box_rect.midtop)
 
     surface.blit(box, box_rect)
-    surface.blit(wave_rendered, wave_rect)
+    surface.blit(text_rendered, text_rect)
 
     return
 
@@ -200,48 +222,6 @@ def blit_tower(surface, tower_img, tower):
                                             tower.y * 32 + 50))
 
     surface.blit(tower_img, tower_loc)
-
-    return
-
-
-def blit_score(surface, score):
-
-    font = pygame.font.SysFont(config.fontname, config.fontsize)
-
-    box = pygame.Surface((160, font.get_linesize()))
-    box.fill(colors.bggreen)
-
-    box_rect = box.get_rect(topright=(config.width - 10,
-                                      10))
-
-    score_rendered = font.render('Score: {}'.format(score),
-                                 True,
-                                 colors.black)
-    score_rect = score_rendered.get_rect(midtop=box_rect.midtop)
-
-    surface.blit(box, box_rect)
-    surface.blit(score_rendered, score_rect)
-
-    return
-
-
-def blit_money(surface, money):
-
-    font = pygame.font.SysFont(config.fontname, config.fontsize)
-
-    box = pygame.Surface((160, font.get_linesize()))
-    box.fill(colors.bgyellow)
-
-    box_rect = box.get_rect(midtop=(config.width // 2,
-                                    10))
-
-    money_rendered = font.render('Money: {}'.format(money),
-                                 True,
-                                 colors.black)
-    money_rect = money_rendered.get_rect(midtop=box_rect.midtop)
-
-    surface.blit(box, box_rect)
-    surface.blit(money_rendered, money_rect)
 
     return
 
