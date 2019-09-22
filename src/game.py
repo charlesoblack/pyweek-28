@@ -191,8 +191,10 @@ def create_tower(pos):
         if tower.pos == snapped_pos:
             return
 
-    tower_instance = Tower(snapped_pos, 'std')
-    data['towers'].append(tower_instance)
+    if data['money'] >= 10:
+        tower_instance = Tower(snapped_pos, 'std')
+        data['towers'].append(tower_instance)
+        data['money'] = data['money'] - 10
 
     return
 
