@@ -91,6 +91,8 @@ def gameplay(surface):
         blit_wave_button(surface, data['wave'])
         blit_next_wave(surface)
 
+        blit_enemies(surface)
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 quit_game(surface)
@@ -159,7 +161,7 @@ def blit_level(surface, tiles, level):
             tile_loc.move_ip(32, 0)
         tile_loc.move_ip(-32 * len(row), 32)
 
-    pass
+    return
 
 
 def blit_tower(surface, tower_img, tower):
@@ -214,6 +216,10 @@ def blit_money(surface, money):
     return
 
 
+def blit_enemies(surface):
+    pass
+
+
 def issue_command(mouse_pos):
     width = config.width
     height = config.height
@@ -225,8 +231,10 @@ def issue_command(mouse_pos):
             82 <= mouse_pos[1] <= height - 82):
         create_tower(mouse_pos)
     if ((width // 2 - 160 <= mouse_pos[0] <= width // 2 + 160) and
-            height - linesize - 10 <= mouse_pos[1] <= height - 10):
-        config.data['wave'] += 1
+            height - linesize - 10 <= mouse_pos[1] <= height - 10 and
+            not config.wave_active):
+        config.wave_active = True
+
     return
 
 

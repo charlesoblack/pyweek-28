@@ -10,3 +10,4 @@ data = {'level': 1,
         'money': 50,
         'wave': 1,
         }
+wave_active = False
