@@ -196,8 +196,8 @@ def blit_level(surface, tiles, game_map):
 
 def blit_tower(surface, tower_img, tower):
 
-    tower_loc = tower_img.get_rect(center=(tower.x,
-                                           tower.y))
+    tower_loc = tower_img.get_rect(topleft=(tower.x * 32 + 50,
+                                            tower.y * 32 + 50))
 
     surface.blit(tower_img, tower_loc)
 
@@ -289,8 +289,8 @@ def create_tower(pos):
 
     data = config.data
 
-    snapped_pos = (pos[0] - pos[0] % 32,
-                   pos[1] - pos[1] % 32)
+    snapped_pos = ((pos[0] - 50) // 32,
+                   (pos[1] - 50) // 32)
 
     # check if there is a tower already in that position
     for tower in data['towers']:
