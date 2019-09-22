@@ -18,6 +18,8 @@ domain roguelike tileset "RLTiles".
 You can find the original tileset at:
 http://rltiles.sf.net
 
+Another part of the graphic tiles is from a chess piece set by [therealqtpi](https://twitter.com/therealqtpi), licensed under AGPLv3+.
+
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
