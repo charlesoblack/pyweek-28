@@ -2,7 +2,7 @@
 
 width = 700
 height = 700
-fontname = 'Times New Roman'
+fontname = 'Arial'
 fontsize = 32
 data = {'level': 1,
         'score': 0,
