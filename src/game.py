@@ -79,10 +79,15 @@ def gameplay(surface):
 
         blit_level(surface, tiles, data['level'])
 
+        # i need to figure out some efficiency stuff here because
+        # this is ridiculous
+
         for tower in data['towers']:
             blit_tower(surface, tower_img, tower)
 
         blit_score(surface, data['score'])
+
+        blit_wave_button(surface, data['wave'])
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -91,6 +96,27 @@ def gameplay(surface):
                 create_tower(event.pos)
 
         pygame.display.flip()
+
+
+def blit_wave_button(surface, wavenum):
+
+    font = pygame.font.SysFont(config.fontname, config.fontsize)
+
+    box = pygame.Surface((80, font.get_linesize()))
+    box.fill(colors.bgblue)
+
+    box_rect = box.get_rect(topright=(config.width - 10,
+                                      10))
+
+    wave_rendered = font.render(str(wavenum),
+                                True,
+                                colors.black)
+    wave_rect = wave_rendered.get_rect(midtop=box_rect.midtop)
+
+    surface.blit(box, box_rect)
+    surface.blit(wave_rendered, wave_rect)
+
+    return
 
 
 def blit_level(surface, tiles, level):

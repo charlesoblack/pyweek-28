@@ -8,4 +8,5 @@ data = {'level': 1,
         'score': 0,
         'towers': [],
         'money': 50,
+        'wave': 1,
         }
