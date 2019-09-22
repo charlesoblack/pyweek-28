@@ -215,9 +215,18 @@ def blit_money(surface, money):
 
 
 def issue_command(mouse_pos):
-    if (82 <= mouse_pos[0] <= config.width - 82 and
-            82 <= mouse_pos[1] <= config.height - 82):
+    width = config.width
+    height = config.height
+
+    font = pygame.font.SysFont(config.fontname, config.fontsize)
+    linesize = font.get_linesize()
+
+    if (82 <= mouse_pos[0] <= width - 82 and
+            82 <= mouse_pos[1] <= height - 82):
         create_tower(mouse_pos)
+    if ((width // 2 - 160 <= mouse_pos[0] <= width // 2 + 160) and
+            height - linesize - 10 <= mouse_pos[1] <= height - 10):
+        config.data['wave'] += 1
     return
 
 
