@@ -4,6 +4,7 @@ import pygame
 import colors
 import base
 import config
+import random
 
 
 class Tower(base.BaseEntity):
@@ -12,7 +13,9 @@ class Tower(base.BaseEntity):
         super().__init__(*params)
         self.damage = 1
         self.level = 1
+        self.upgrade_cost = 20
         self.current_enemy = None
+        self.max_level = 3
         self.range = 2
 
     def distance(self, enemy):
@@ -50,9 +53,24 @@ class Tower(base.BaseEntity):
             self.current_enemy.take_dmg(self.damage)
             if self.current_enemy.dead:
                 self.current_enemy = None
+                config.data['money'] += 1
             self.last_action = 0
 
         return
 
     def upgrade(self):
-        pass
+        if (config.data['money'] >= self.upgrade_cost and
+                self.level < self.max_level):
+            self.level = max(self.level + 1, self.max_level)
+            self.damage += random.choices(range(1, 6),
+                                          weights=[0.4,  # 1
+                                                   0.2,  # 2
+                                                   0.2,  # 3
+                                                   0.1,  # 4
+                                                   0.1,  # 5
+                                                   ])[0]
+            self.range += 1
+            config.data['money'] -= self.upgrade_cost
+            self.upgrade_cost += 20 * self.level
+
+        return
