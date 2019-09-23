@@ -24,3 +24,4 @@ game_speed = 10
 next_wave = None
 this_wave = None
 enemies = []
+tactic = 'many-of-one'

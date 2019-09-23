@@ -165,11 +165,19 @@ def gameplay(surface):
 
 
 def new_wave(enemy_types):
-    config.this_wave = config.next_wave or random.choice(enemy_types)
-    config.next_wave = random.choice(enemy_types)
+    config.this_wave = config.next_wave or [random.choice(enemy_types)]
     enemy_count = random.randrange(10, 20) * config.data['wave']
-    config.enemies = [random.choice([config.this_wave])
+    config.enemies = [random.choice(config.this_wave)
                       for _ in range(enemy_count)]
+    if config.tactic == 'many-of-one':
+        config.next_wave = [random.choice(enemy_types)]
+    elif config.tactic == 'large-hp':
+        config.next_wave = random.choices(enemy_types, k=2)
+    elif config.tactic == 'few-of-many':
+        config.next_wave = random.choices(enemy_types, k=5)
+    config.tactic = random.choice(['many-of-one',
+                                   'large-hp',
+                                   'few-of-many'])
 
     return
 
