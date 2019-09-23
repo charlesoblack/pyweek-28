@@ -288,7 +288,9 @@ def create_tower(pos):
 
     data = config.data
 
-    snapped_pos = ((pos[0] - config.offset_l) // config.tile_size,
+    snapped_pos = ((pos[0]
+                    - config.offset_l
+                    - config.tile_size // 2) // config.tile_size,
                    (pos[1] - config.offset_u) // config.tile_size)
 
     # check if there is a tower already in that position

@@ -16,7 +16,7 @@ class BaseEntity(object):
 
     @property
     def x_converted(self):
-        return self.x * config.tile_size + config.offset_l
+        return (self.x + 0.5) * config.tile_size + config.offset_l
 
     @property
     def y_converted(self):
