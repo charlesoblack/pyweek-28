@@ -51,9 +51,11 @@ class Tower(base.BaseEntity):
                              2)
 
             self.current_enemy.take_dmg(self.damage)
+            config.data['score'] += 10
             if self.current_enemy.dead:
                 self.current_enemy = None
                 config.data['money'] += 1
+                config.data['score'] += 90
             self.last_action = 0
 
         return
