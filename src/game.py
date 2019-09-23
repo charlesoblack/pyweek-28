@@ -4,6 +4,7 @@ import pygame
 import config
 import colors
 import os
+import random
 
 
 def continue_game(surface):
@@ -75,17 +76,18 @@ def gameplay(surface):
              }
 
     enemy_imgs = {}
+    enemy_types = []
     for file in os.listdir('../assets/tiles/enemy/'):
         img = pygame.image.load('../assets/tiles/enemy/{}'.format(file))
         img = img.convert()
         img.set_colorkey(colors.colorkey)
         enemy_imgs[file[:-4]] = img
+        enemy_types.append(file[:-4])
 
-    enemies = {1: ['butterfly3',
-                   'butterfly3',
-                   'butterfly4',
-                   ],
-               }
+    this_wave = random.choice(enemy_types)
+    next_wave = random.choice(enemy_types)
+    enemy_count = random.randrange(10, 20) * data['wave']
+    enemies = [random.choice([this_wave]) for _ in range(enemy_count)]
 
     parse_map(data['level'])
     clock = pygame.time.Clock()
@@ -106,7 +108,7 @@ def gameplay(surface):
         blit_info(surface,
                   (width_8, 10),
                   colors.bgblue,
-                  'Wave {}'.format(data['wave']))
+                  'Wave {}-{}'.format(data['level'], data['wave']))
 
         # money
         blit_info(surface,
@@ -131,7 +133,7 @@ def gameplay(surface):
         if config.wave_active:
             blit_enemies(surface,
                          enemy_imgs,
-                         enemies[data['wave']])
+                         enemies)
 
             blit_shots(surface,
                        data['towers'])
@@ -141,9 +143,13 @@ def gameplay(surface):
             config.wave_active = False
             config.active_enemies = []
             data['wave'] += 1
+            this_wave = next_wave
+            next_wave = random.choice(enemy_types)
+            enemy_count = random.randrange(10, 20) * data['wave']
+            enemies = [random.choice([this_wave]) for _ in range(enemy_count)]
 
         if data['wave'] > 10:
-            data['wave'] = 0
+            data['wave'] = 1
             data['level'] += 1
             parse_map(data['level'])
 
