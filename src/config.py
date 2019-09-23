@@ -21,3 +21,6 @@ offset_r = width // 2 + map_size * tile_size // 2
 offset_u = height // 2 - map_size * tile_size // 2
 offset_d = height // 2 + map_size * tile_size // 2
 game_speed = 10
+next_wave = None
+this_wave = None
+enemies = []

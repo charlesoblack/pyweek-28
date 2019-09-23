@@ -84,10 +84,7 @@ def gameplay(surface):
         enemy_imgs[file[:-4]] = img
         enemy_types.append(file[:-4])
 
-    this_wave = random.choice(enemy_types)
-    next_wave = random.choice(enemy_types)
-    enemy_count = random.randrange(10, 20) * data['wave']
-    enemies = [random.choice([this_wave]) for _ in range(enemy_count)]
+    new_wave(enemy_types)
 
     parse_map(data['level'])
     clock = pygame.time.Clock()
@@ -133,7 +130,7 @@ def gameplay(surface):
         if config.wave_active:
             blit_enemies(surface,
                          enemy_imgs,
-                         enemies)
+                         config.enemies)
 
             blit_shots(surface,
                        data['towers'])
@@ -143,10 +140,7 @@ def gameplay(surface):
             config.wave_active = False
             config.active_enemies = []
             data['wave'] += 1
-            this_wave = next_wave
-            next_wave = random.choice(enemy_types)
-            enemy_count = random.randrange(10, 20) * data['wave']
-            enemies = [random.choice([this_wave]) for _ in range(enemy_count)]
+            new_wave(enemy_types)
 
         if data['wave'] > 10:
             data['wave'] = 1
@@ -168,6 +162,16 @@ def gameplay(surface):
 
         clock.tick(60)
         pygame.display.flip()
+
+
+def new_wave(enemy_types):
+    config.this_wave = config.next_wave or random.choice(enemy_types)
+    config.next_wave = random.choice(enemy_types)
+    enemy_count = random.randrange(10, 20) * config.data['wave']
+    config.enemies = [random.choice([config.this_wave])
+                      for _ in range(enemy_count)]
+
+    return
 
 
 def blit_shots(surface, towers):
