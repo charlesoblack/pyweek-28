@@ -11,6 +11,9 @@ class Enemy(base.BaseEntity):
         super().__init__(*params)
         self.health = random.randint(config.wave * config.level,
                                      config.wave * (config.level + 5))
+        if config.tactic == 'large-hp':
+            self.health *= 3
+        return
 
     def take_dmg(self, amt):
         self.health = max(0, self.health - amt)
