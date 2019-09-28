@@ -40,6 +40,50 @@ def quit_game(surface):
 def gameplay(surface):
 
     data = config.data
+    font = pygame.font.SysFont(config.fontname, config.fontsize)
+
+    tower_types = {'color': {'white': colors.white,
+                             'red': colors.purered,
+                             'blue': colors.pureblue,
+                             'green': colors.puregreen,
+                             }}
+
+    # ================================== GUI ==================================
+
+    tower_type_text = font.render('Tower type',
+                                  True,
+                                  colors.white)
+
+    tower_sqr_white = pygame.Surface((config.tile_size,
+                                      config.tile_size))
+    tower_sqr_white.fill(tower_types['color']['white'])
+
+    tower_sqr_red = pygame.Surface((config.tile_size,
+                                    config.tile_size))
+    tower_sqr_red.fill(tower_types['color']['red'])
+
+    tower_sqr_green = pygame.Surface((config.tile_size,
+                                      config.tile_size))
+    tower_sqr_green.fill(tower_types['color']['green'])
+
+    tower_sqr_blue = pygame.Surface((config.tile_size,
+                                     config.tile_size))
+    tower_sqr_blue.fill(tower_types['color']['blue'])
+
+    tower_sqr = tower_sqr_white.get_rect(midtop=((config.width
+                                                  + config.offset_r)
+                                                 // 2,
+                                                 config.height // 2
+                                                 + font.get_linesize()))
+    type_text_rect = tower_type_text.get_rect(midbottom=tower_sqr.midtop)
+
+    tower_types['gui_square'] = {'white': tower_sqr_white,
+                                 'red': tower_sqr_red,
+                                 'blue': tower_sqr_blue,
+                                 'green': tower_sqr_green,
+                                 }
+
+    # ================================ Towers =================================
 
     tower_white = pygame.image.load('../assets/tiles/tower/wR.bmp').convert()
     # tower_img_white.set_colorkey(colors.colorkey)
@@ -53,13 +97,16 @@ def gameplay(surface):
     tower_green = tower_white.copy()
     tower_green.fill(colors.puregreen, special_flags=pygame.BLEND_MIN)
 
-    tower_imgs = {'white': tower_white,
-                  'red': tower_red,
-                  'blue': tower_blue,
-                  'green': tower_green}
+    tower_types['sprites'] = {'white': tower_white,
+                              'red': tower_red,
+                              'blue': tower_blue,
+                              'green': tower_green,
+                              }
 
-    for img in tower_imgs.values():
+    for img in tower_types['sprites'].values():
         img.set_colorkey(img.get_at((0, 0)))
+
+    # ================================== Map ==================================
 
     wall_tile = pygame.image.load('../assets/tiles/floor/'
                                   'dngn_rock_wall_00.bmp').convert()
@@ -92,6 +139,8 @@ def gameplay(surface):
              'exit': exit_tile,
              }
 
+    # ================================ Enemies ================================
+
     enemy_imgs = {}
     enemy_types = []
     for file in os.listdir('../assets/tiles/enemy/'):
@@ -100,6 +149,8 @@ def gameplay(surface):
         img.set_colorkey(colors.colorkey)
         enemy_imgs[file[:-4]] = img
         enemy_types.append(file[:-4])
+
+    # ============================== Other prep ===============================
 
     new_wave(enemy_types)
 
@@ -110,13 +161,17 @@ def gameplay(surface):
     while True:
         surface.fill(colors.black)
 
+        surface.blit(tower_types['gui_square'][config.tower_type],
+                     tower_sqr)
+        surface.blit(tower_type_text, type_text_rect)
+
         blit_level(surface, tiles)
 
         # i need to figure out some efficiency stuff here because
         # this is ridiculous
 
         for tower in data['towers']:
-            blit_tower(surface, tower_imgs, tower)
+            blit_tower(surface, tower_types['sprites'], tower)
 
         # wave number
         blit_info(surface,
@@ -307,13 +362,35 @@ def issue_command(mouse_pos):
     offset_u = config.offset_u + config.tile_size
     offset_d = config.offset_d - config.tile_size
 
+    # if we're clicking somewhere in the field of play
     if (offset_l <= mouse_pos[0] <= offset_r and
             offset_u <= mouse_pos[1] <= offset_d):
+
+        # create a new tower
         create_tower(mouse_pos)
+
+    # if we're clicking on the "next wave" button
     if ((width // 2 - 160 <= mouse_pos[0] <= width // 2 + 160) and
             height - linesize - 10 <= mouse_pos[1] <= height - 10 and
             not config.wave_active):
+
+        # start the next wave
         config.wave_active = True
+
+    # if we're clicking on the tower type icon
+    if (((width + config.offset_r - config.tile_size) // 2 <=
+         mouse_pos[0] <=
+         (width + config.offset_r + config.tile_size) // 2) and
+        (height // 2 + linesize <=
+         mouse_pos[1] <=
+         height // 2 + linesize + config.tile_size)):
+
+        # change the tower type
+        new_index = ((config.tower_types.index(config.tower_type)
+                      + 1)
+                     % len(config.tower_types)
+                     ) or 0  # guarantee that we have something, at least
+        config.tower_type = config.tower_types[new_index]
 
     return
 
