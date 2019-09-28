@@ -13,6 +13,7 @@ def main_menu(surface):
     options = ['new',
                'continue',
                'endless',
+               'credits',
                'quit',
                ]
     k = len(options)
@@ -25,6 +26,7 @@ def main_menu(surface):
     option_functions = [game.gameplay,
                         game.continue_game,
                         game.endless,
+                        game.credits,
                         game.quit_game,
                         ]
 
