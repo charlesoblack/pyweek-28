@@ -63,7 +63,7 @@ class Tower(base.BaseEntity):
     def upgrade(self):
         if (config.data['money'] >= self.upgrade_cost and
                 self.level < self.max_level):
-            self.level = max(self.level + 1, self.max_level)
+            self.level = min(self.level + 1, self.max_level)
             self.damage += random.choices(range(1, 6),
                                           weights=[0.4,  # 1
                                                    0.2,  # 2
