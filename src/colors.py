@@ -14,9 +14,21 @@ bggray = Color(215, 215, 215)
 bgred = Color(240, 150, 150)
 shots = Color(255, 0, 255)
 
+puregray = Color(100, 100, 100)
+puregray_6 = Color(60, 60, 60)
+puregray_2 = Color(20, 20, 20)
+
 purered = Color(255, 0, 0)
+purered_5 = Color(255 * 2 // 10, 255 * 8 // 10, 255 * 8 // 10)
+
 pureblue = Color(25, 25, 255)
+pureblue_8 = Color(25 * 8 // 10, 25 * 8 // 10, 255 * 8 // 10)
+pureblue_6 = Color(25 * 6 // 10, 25 * 6 // 10, 255 * 6 // 10)
+pureblue_4 = Color(25 * 4 // 10, 25 * 4 // 10, 255 * 4 // 10)
+pureblue_2 = Color(25 * 2 // 10, 25 * 2 // 10, 255 * 2 // 10)
+
 puregreen = Color(0, 255, 0)
+puregreen_5 = Color(0, 255 * 5 // 10, 0)
 
 red_1 = Color(240, 20, 20)
 red_2 = Color(240, 120, 120)

@@ -93,26 +93,73 @@ def gameplay(surface):
 
     # ================================ Towers =================================
 
-    tower_white = pygame.image.load('../assets/tiles/tower/wR.bmp').convert()
-    # tower_img_white.set_colorkey(colors.colorkey)
+    tower_white_1 = pygame.image.load('../assets/tiles/tower/'
+                                      'wR_magenta.bmp').convert()
 
-    tower_red = tower_white.copy()
-    tower_red.fill(colors.purered, special_flags=pygame.BLEND_MIN)
+    tower_white_2 = tower_white_1.copy()
+    tower_white_2.fill(colors.puregray_6,
+                       special_flags=pygame.BLEND_MIN)
 
-    tower_blue = tower_white.copy()
-    tower_blue.fill(colors.pureblue, special_flags=pygame.BLEND_MIN)
+    tower_white_3 = tower_white_1.copy()
+    tower_white_3.fill(colors.puregray_2,
+                       special_flags=pygame.BLEND_MIN)
 
-    tower_green = tower_white.copy()
-    tower_green.fill(colors.puregreen, special_flags=pygame.BLEND_MIN)
+    tower_red_1 = tower_white_1.copy()
+    tower_red_1.fill(colors.purered, special_flags=pygame.BLEND_MIN)
 
-    tower_types['sprites'] = {'white': tower_white,
-                              'red': tower_red,
-                              'blue': tower_blue,
-                              'green': tower_green,
+    # the exception because our sprite has a magenta background
+    tower_red_2 = tower_white_1.copy()
+    tower_red_2.fill(colors.purered_5,
+                     special_flags=pygame.BLEND_SUB)
+
+    tower_blue_1 = tower_white_1.copy()
+    tower_blue_1.fill(colors.pureblue, special_flags=pygame.BLEND_MIN)
+
+    tower_blue_2 = tower_white_1.copy()
+    tower_blue_2.fill(colors.pureblue_8,
+                      special_flags=pygame.BLEND_MIN)
+
+    tower_blue_3 = tower_white_1.copy()
+    tower_blue_3.fill(colors.pureblue_6,
+                      special_flags=pygame.BLEND_MIN)
+
+    tower_blue_4 = tower_white_1.copy()
+    tower_blue_4.fill(colors.pureblue_4,
+                      special_flags=pygame.BLEND_MIN)
+
+    tower_blue_5 = tower_white_1.copy()
+    tower_blue_5.fill(colors.pureblue_2,
+                      special_flags=pygame.BLEND_MIN)
+
+    tower_green_1 = tower_white_1.copy()
+    tower_green_1.fill(colors.puregreen, special_flags=pygame.BLEND_MIN)
+
+    tower_green_2 = tower_white_1.copy()
+    tower_green_2.fill(colors.puregreen_5,
+                       special_flags=pygame.BLEND_MIN)
+
+    tower_types['sprites'] = {1: {'white': tower_white_1,
+                                  'red': tower_red_1,
+                                  'blue': tower_blue_1,
+                                  'green': tower_green_1,
+                                  },
+                              2: {'white': tower_white_2,
+                                  'red': tower_red_2,
+                                  'blue': tower_blue_2,
+                                  'green': tower_green_2,
+                                  },
+                              3: {'white': tower_white_3,
+                                  'blue': tower_blue_3,
+                                  },
+                              4: {'blue': tower_blue_4,
+                                  },
+                              5: {'blue': tower_blue_5,
+                                  },
                               }
 
-    for img in tower_types['sprites'].values():
-        img.set_colorkey(img.get_at((0, 0)))
+    for lvl in tower_types['sprites'].values():
+        for img in lvl.values():
+            img.set_colorkey(img.get_at((0, 0)))
 
     # ================================== Map ==================================
 
@@ -351,11 +398,11 @@ def blit_level(surface, tiles):
 
 
 def blit_tower(surface, tower_imgs, tower):
+    tower_img = tower_imgs[tower.level][tower.type]
+    tower_loc = tower_img.get_rect(topleft=(tower.x_converted,
+                                            tower.y_converted))
 
-    tower_loc = tower_imgs[tower.type].get_rect(topleft=(tower.x_converted,
-                                                         tower.y_converted))
-
-    surface.blit(tower_imgs[tower.type], tower_loc)
+    surface.blit(tower_img, tower_loc)
 
     return
 
