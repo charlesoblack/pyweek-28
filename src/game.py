@@ -389,8 +389,94 @@ def create_map():
     import maps
 
     game_map = maps.Map()
+    map_size = config.map_size
 
-    # somehow generate a map on the fly here
+    # generate a map on the fly here
+
+    # generate entrance/exit locations
+    entrance_loc = [random.randrange(1, map_size - 2),
+                    random.choice([0, map_size - 1]),
+                    ]
+    random.shuffle(entrance_loc)  # to make it nice and even
+    print('entrance ', entrance_loc, flush=True)
+    # exit_loc = [random.randrange(1, map_size - 2),
+    #             random.choice([0, map_size - 1])]
+    # random.shuffle(exit_loc)
+
+    # generate empty map
+    for row_num in range(map_size):
+        if row_num in (0, map_size - 1):
+            row = ['wall' for _ in range(map_size)]
+        else:
+            row = (['wall']
+                   + ['floor' for _ in range(map_size - 2)]
+                   + ['wall'])
+        game_map.raw.append(row)
+
+    # place entrance/exit
+    setattr(game_map, 'entrance', tuple(entrance_loc))
+    game_map.raw[entrance_loc[1]][entrance_loc[0]] = 'entrance'
+
+    # find a path
+    vertex = entrance_loc
+    last_vertex = None
+
+    for iter_count in range(20):
+        corridor_len = random.randint(2, 6)
+        corridor_dir = random.choice(['dpath',
+                                      'upath',
+                                      'rpath',
+                                      'lpath'])
+
+        if last_vertex is not None:
+            game_map.raw[vertex[1]][vertex[0]] = corridor_dir
+
+        if corridor_dir == 'upath':
+            for v in range(corridor_len):
+                loc = game_map.raw[vertex[1] - 1][vertex[0]]
+                if loc in ('upath', 'dpath', 'rpath', 'lpath', 'wall'):
+                    break
+                game_map.raw[vertex[1] - 1][vertex[0]] = 'upath'
+                last_vertex = list(vertex)
+                vertex[1] -= 1
+
+        elif corridor_dir == 'dpath':
+            for v in range(corridor_len):
+                try:
+                    loc = game_map.raw[vertex[1] + 1][vertex[0]]
+                    if loc in ('upath', 'dpath', 'rpath', 'lpath', 'wall'):
+                        break
+                    game_map.raw[vertex[1] + 1][vertex[0]] = 'dpath'
+                    last_vertex = list(vertex)
+                    vertex[1] += 1
+                except IndexError:
+                    pass
+
+        elif corridor_dir == 'rpath':
+            for v in range(corridor_len):
+                try:
+                    loc = game_map.raw[vertex[1]][vertex[0] + 1]
+                    if loc in ('upath', 'dpath', 'rpath', 'lpath', 'wall'):
+                        break
+                    game_map.raw[vertex[1]][vertex[0] + 1] = 'rpath'
+                    last_vertex = list(vertex)
+                    vertex[0] += 1
+                except IndexError:
+                    pass
+
+        elif corridor_dir == 'lpath':
+            for v in range(corridor_len):
+                loc = game_map.raw[vertex[1]][vertex[0] - 1]
+                if loc in ('upath', 'dpath', 'rpath', 'lpath', 'wall'):
+                    break
+                game_map.raw[vertex[1]][vertex[0] - 1] = 'lpath'
+                last_vertex = list(vertex)
+                vertex[0] -= 1
+
+    setattr(game_map, 'exit', tuple(vertex))
+    game_map.raw[vertex[1]][vertex[0]] = 'exit'
+
+    # place water tiles for looking nice
 
     config.game_map = game_map
 
