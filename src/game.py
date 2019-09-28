@@ -214,6 +214,10 @@ def gameplay(surface):
     width_8 = config.width / 8
 
     while True:
+        if ((data['level'] > 10 and config.mode == 'campaign') or
+                (data['core'] <= 0)):
+            break
+
         surface.fill(colors.black)
 
         surface.blit(tower_types['gui_square'][config.tower_type],
@@ -289,6 +293,13 @@ def gameplay(surface):
 
         clock.tick(60)
         pygame.display.flip()
+
+    credits(surface)
+    return
+
+
+def credits(surface):
+    pass
 
 
 def new_wave(enemy_types):
