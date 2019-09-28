@@ -9,8 +9,11 @@ class Enemy(base.BaseEntity):
 
     def __init__(self, *params):
         super().__init__(*params)
-        self.health = random.randint(config.wave * config.level,
-                                     config.wave * (config.level + 5))
+        self.health = random.randint(config.data['wave']
+                                     * config.data['level'],
+                                     config.data['wave']
+                                     * (config.data['level']
+                                     + 5))
         if config.tactic == 'large-hp':
             self.health *= 3
         return
