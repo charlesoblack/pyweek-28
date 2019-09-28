@@ -11,12 +11,26 @@ class Tower(base.BaseEntity):
 
     def __init__(self, *params):
         super().__init__(*params)
-        self.damage = 1
         self.level = 1
-        self.upgrade_cost = 20
         self.current_enemy = None
-        self.max_level = 3
-        self.range = 2
+        self.get_stats()
+        return
+
+    def get_stats(self):
+        if self.type == 'white':
+            a, b, c, d = 1, 3, 2, 20
+        elif self.type == 'red':
+            a, b, c, d = 2, 2, 2, 20
+        elif self.type == 'blue':
+            a, b, c, d = 1, 5, 1, 25
+        elif self.type == 'green':
+            a, b, c, d = 1, 2, 1, 10
+        self.damage = a
+        self.max_level = b
+        self.range = c
+        self.upgrade_cost = d
+        self.original_cost = self.upgrade_cost
+        return
 
     def distance(self, enemy):
         return abs(self.x - enemy.x) ** 2 + abs(self.y - enemy.y) ** 2
@@ -73,6 +87,6 @@ class Tower(base.BaseEntity):
                                                    ])[0]
             self.range += 1
             config.data['money'] -= self.upgrade_cost
-            self.upgrade_cost += 20 * self.level
+            self.upgrade_cost += self.original_cost * self.level
 
         return
