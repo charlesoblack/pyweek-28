@@ -398,10 +398,6 @@ def create_map():
                     random.choice([0, map_size - 1]),
                     ]
     random.shuffle(entrance_loc)  # to make it nice and even
-    print('entrance ', entrance_loc, flush=True)
-    # exit_loc = [random.randrange(1, map_size - 2),
-    #             random.choice([0, map_size - 1])]
-    # random.shuffle(exit_loc)
 
     # generate empty map
     for row_num in range(map_size):
@@ -476,7 +472,47 @@ def create_map():
     setattr(game_map, 'exit', tuple(vertex))
     game_map.raw[vertex[1]][vertex[0]] = 'exit'
 
-    # place water tiles for looking nice
+    # place water tiles for looking nice using drunkard walk
+
+    amt = int(0.1 * map_size ** 2)
+    count = 0
+
+    random_loc = [random.randint(1, map_size - 2),
+                  random.randint(1, map_size - 2)]
+    current_loc = random_loc
+
+    while count < amt:
+        old_loc = list(current_loc)
+
+        # if we are not in a path
+        if game_map.raw[current_loc[1]][current_loc[0]] == 'floor':
+            game_map.raw[current_loc[1]][current_loc[0]] = 'water'
+            count += 1
+        else:
+            current_loc = old_loc
+
+        new_area = random.randint(1, 100) <= 10
+
+        if not new_area:
+            direction = random.choice(['down', 'up', 'left', 'right'])
+            if direction == 'down':
+                current_loc[1] += 1
+            elif direction == 'up':
+                current_loc[1] -= 1
+            elif direction == 'right':
+                current_loc[0] += 1
+            elif direction == 'left':
+                current_loc[0] -= 1
+
+            # prevent walking off the map
+            current_loc[0] = max(current_loc[0], 1)
+            current_loc[1] = max(current_loc[1], 1)
+            current_loc[0] = min(current_loc[0], map_size - 2)
+            current_loc[1] = min(current_loc[1], map_size - 2)
+
+        else:
+            current_loc = [random.randint(1, map_size - 2),
+                           random.randint(1, map_size - 2)]
 
     config.game_map = game_map
 
