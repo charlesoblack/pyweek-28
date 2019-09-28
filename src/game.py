@@ -38,27 +38,28 @@ def quit_game(surface):
 
 
 def gameplay(surface):
-    from numpy import subtract
-    from copy import deepcopy
 
     data = config.data
 
-    tower_img_white = pygame.image.load('../assets/tiles/tower/wR.bmp').convert()
-    tower_img_white.set_colorkey(colors.colorkey)
+    tower_white = pygame.image.load('../assets/tiles/tower/wR.bmp').convert()
+    # tower_img_white.set_colorkey(colors.colorkey)
 
-    tower_img_red = tower_img_white.copy()
-    tower_img_red.fill(colors.purered, special_flags=pygame.BLEND_MIN)
+    tower_red = tower_white.copy()
+    tower_red.fill(colors.purered, special_flags=pygame.BLEND_MIN)
 
-    tower_img_blue = tower_img_white.copy()
-    tower_img_blue.fill(colors.pureblue, special_flags=pygame.BLEND_MIN)
+    tower_blue = tower_white.copy()
+    tower_blue.fill(colors.pureblue, special_flags=pygame.BLEND_MIN)
 
-    tower_img_green = tower_img_white.copy()
-    tower_img_green.fill(colors.puregreen, special_flags=pygame.BLEND_MIN)
+    tower_green = tower_white.copy()
+    tower_green.fill(colors.puregreen, special_flags=pygame.BLEND_MIN)
 
-    tower_imgs = {'white': tower_img_white,
-                  'red': tower_img_red,
-                  'blue': tower_img_blue,
-                  'green': tower_img_green}
+    tower_imgs = {'white': tower_white,
+                  'red': tower_red,
+                  'blue': tower_blue,
+                  'green': tower_green}
+
+    for img in tower_imgs.values():
+        img.set_colorkey(img.get_at((0, 0)))
 
     wall_tile = pygame.image.load('../assets/tiles/floor/'
                                   'dngn_rock_wall_00.bmp').convert()
@@ -321,6 +322,7 @@ def create_tower(pos):
     from tower import Tower
 
     data = config.data
+    tower_type = config.tower_type
 
     snapped_pos = ((pos[0]
                     - config.offset_l
@@ -335,7 +337,7 @@ def create_tower(pos):
 
     if (data['money'] >= 10 and
             config.game_map.raw[snapped_pos[1]][snapped_pos[0]] == 'floor'):
-        tower_instance = Tower(snapped_pos, 'white')
+        tower_instance = Tower(snapped_pos, tower_type)
         data['towers'].append(tower_instance)
         data['money'] = data['money'] - 10
 
