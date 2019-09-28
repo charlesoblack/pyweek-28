@@ -71,6 +71,11 @@ def main_menu(surface):
 if __name__ == '__main__':
     import pygame
     import config
+    import sys
+    import os
+
+    if getattr(sys, 'frozen', False):
+        os.chdir(sys._MEIPASS)
 
     pygame.display.init()
     pygame.font.init()

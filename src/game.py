@@ -101,7 +101,7 @@ def gameplay(surface):
 
     # ================================ Towers =================================
 
-    tower_white_1 = pygame.image.load('../assets/tiles/tower/'
+    tower_white_1 = pygame.image.load('./assets/tiles/tower/'
                                       'wR_magenta.bmp').convert()
 
     tower_white_2 = tower_white_1.copy()
@@ -171,17 +171,17 @@ def gameplay(surface):
 
     # ================================== Map ==================================
 
-    wall_tile = pygame.image.load('../assets/tiles/floor/'
+    wall_tile = pygame.image.load('./assets/tiles/floor/'
                                   'dngn_rock_wall_00.bmp').convert()
-    floor_tile = pygame.image.load('../assets/tiles/floor/'
+    floor_tile = pygame.image.load('./assets/tiles/floor/'
                                    'dngn_floor.bmp').convert()
-    path_tile = pygame.image.load('../assets/tiles/floor/'
+    path_tile = pygame.image.load('./assets/tiles/floor/'
                                   'dngn_floor_lair.bmp').convert()
-    water_tile = pygame.image.load('../assets/tiles/floor/'
+    water_tile = pygame.image.load('./assets/tiles/floor/'
                                    'dngn_shallow_water.bmp').convert()
-    entrance_tile = pygame.image.load('../assets/tiles/floor/'
+    entrance_tile = pygame.image.load('./assets/tiles/floor/'
                                       'dngn_enter_abyss.bmp').convert()
-    exit_tile = pygame.image.load('../assets/tiles/floor/'
+    exit_tile = pygame.image.load('./assets/tiles/floor/'
                                   'dngn_exit.bmp').convert()
 
     wall_tile.set_colorkey(colors.colorkey)
@@ -206,8 +206,8 @@ def gameplay(surface):
 
     enemy_imgs = {}
     enemy_types = []
-    for file in os.listdir('../assets/tiles/enemy/'):
-        img = pygame.image.load('../assets/tiles/enemy/{}'.format(file))
+    for file in os.listdir('./assets/tiles/enemy/'):
+        img = pygame.image.load('./assets/tiles/enemy/{}'.format(file))
         img = img.convert()
         img.set_colorkey(colors.colorkey)
         enemy_imgs[file[:-4]] = img
@@ -689,10 +689,10 @@ def create_tower(pos):
 def parse_map(level):
     import maps
 
-    game_map_file = '../assets/maps/map_{}.txt'.format(level)
+    game_map_file = './assets/maps/map_{}.txt'.format(level)
 
     # for testing purposes
-    # game_map_file = '../assets/maps/test.txt'
+    # game_map_file = './assets/maps/test.txt'
 
     with open(game_map_file, 'r') as f:
         raw_data = f.read().splitlines()
