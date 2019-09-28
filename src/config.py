@@ -25,3 +25,4 @@ next_wave = None
 this_wave = None
 enemies = []
 tactic = 'many-of-one'
+tower_type = 'white'
