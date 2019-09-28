@@ -692,7 +692,7 @@ def parse_map(level):
     game_map_file = '../assets/maps/map_{}.txt'.format(level)
 
     # for testing purposes
-    game_map_file = '../assets/maps/test.txt'
+    # game_map_file = '../assets/maps/test.txt'
 
     with open(game_map_file, 'r') as f:
         raw_data = f.read().splitlines()
