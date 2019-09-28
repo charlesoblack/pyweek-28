@@ -15,12 +15,12 @@ bgred = Color(240, 150, 150)
 shots = Color(255, 0, 255)
 
 purered = Color(255, 0, 0)
-pureblue = Color(0, 0, 255)
+pureblue = Color(25, 25, 255)
 puregreen = Color(0, 255, 0)
 
 red_1 = Color(240, 20, 20)
 red_2 = Color(240, 120, 120)
-red_2 = Color(240, 180, 180)
+red_3 = Color(240, 180, 180)
 
 green_1 = Color(20, 240, 20)
 green_2 = Color(120, 240, 120)
