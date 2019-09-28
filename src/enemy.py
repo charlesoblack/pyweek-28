@@ -2,13 +2,15 @@
 
 import config
 import base
+import random
 
 
 class Enemy(base.BaseEntity):
 
     def __init__(self, *params):
         super().__init__(*params)
-        self.health = 5
+        self.health = random.randint(config.wave * config.level,
+                                     config.wave * (config.level + 5))
 
     def take_dmg(self, amt):
         self.health = max(0, self.health - amt)
