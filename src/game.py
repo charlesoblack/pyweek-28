@@ -299,7 +299,54 @@ def gameplay(surface):
 
 
 def credits(surface):
-    pass
+    font = pygame.font.SysFont(config.fontname, config.fontsize)
+    linesize = font.get_linesize()
+
+    score = font.render('Your final score was {}'.format(config.data['score']),
+                        True,
+                        colors.white)
+    score_rect = score.get_rect(midtop=(config.width // 2,
+                                        config.height // 2 - linesize))
+
+    author = font.render('Author: sid',
+                         True,
+                         colors.white)
+    author_rect = author.get_rect(midtop=score_rect.midbottom)
+
+    artwork = font.render('Artwork by the RLTiles folks and @therealqtpi',
+                          True,
+                          colors.white)
+    artwork_rect = artwork.get_rect(midtop=author_rect.midbottom)
+
+    any_key = font.render('Press any key to continue...',
+                          True,
+                          colors.white)
+    any_rect = any_key.get_rect(midtop=artwork_rect.midbottom)
+
+    surface.fill(colors.black)
+
+    surface.blit(score, score_rect)
+    surface.blit(author, author_rect)
+    surface.blit(artwork, artwork_rect)
+
+    pygame.display.flip()
+
+    # waiting 5s
+    pygame.time.wait(5000)
+
+    surface.blit(any_key, any_rect)
+
+    pygame.display.flip()
+
+    pygame.event.clear()
+
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                quit_game(surface)
+            elif event.type == pygame.KEYDOWN:
+                return
+    return
 
 
 def new_wave(enemy_types):
