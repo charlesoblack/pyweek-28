@@ -22,6 +22,14 @@ def continue_game(surface):
     return
 
 
+def endless(surface):
+
+    config.mode = 'endless'
+
+    gameplay(surface)
+    return
+
+
 def quit_game(surface):
     from sys import exit
     import pickle
@@ -154,7 +162,7 @@ def gameplay(surface):
 
     new_wave(enemy_types)
 
-    parse_map(data['level'])
+    new_map()
     clock = pygame.time.Clock()
     width_8 = config.width / 8
 
@@ -217,7 +225,7 @@ def gameplay(surface):
         if data['wave'] > 10:
             data['wave'] = 1
             data['level'] += 1
-            parse_map(data['level'])
+            new_map()
 
         if config.wave_active:
             for enemy in config.active_enemies:
@@ -252,6 +260,26 @@ def new_wave(enemy_types):
     config.tactic = random.choice(['many-of-one',
                                    'large-hp',
                                    'few-of-many'])
+
+    return
+
+
+def new_map():
+    if config.mode == 'endless':
+        create_map()
+    else:
+        parse_map(config.data['level'])
+    return
+
+
+def create_map():
+    import maps
+
+    game_map = maps.Map()
+
+    # somehow generate a map on the fly here
+
+    config.game_map = game_map
 
     return
 

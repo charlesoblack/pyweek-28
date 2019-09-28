@@ -12,6 +12,7 @@ def main_menu(surface):
 
     options = ['new',
                'continue',
+               'endless',
                'quit',
                ]
     k = len(options)
@@ -23,6 +24,7 @@ def main_menu(surface):
 
     option_functions = [game.gameplay,
                         game.continue_game,
+                        game.endless,
                         game.quit_game,
                         ]
 
@@ -56,6 +58,7 @@ def main_menu(surface):
                 elif event.key == pygame.K_DOWN:
                     selected = (selected + 1 + k) % k
                 elif event.key == pygame.K_RETURN:
+                    # call the appropriate function
                     option_functions[selected](surface)
 
         pygame.display.flip()
