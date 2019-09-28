@@ -30,6 +30,14 @@ def endless(surface):
     return
 
 
+def new_game(surface):
+
+    config.mode = 'campaign'
+
+    gameplay(surface)
+    return
+
+
 def quit_game(surface):
     from sys import exit
     import pickle

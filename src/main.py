@@ -23,7 +23,7 @@ def main_menu(surface):
                                     colors.white)
                         for option in options]
 
-    option_functions = [game.gameplay,
+    option_functions = [game.new_game,
                         game.continue_game,
                         game.endless,
                         game.credits,
