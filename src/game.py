@@ -239,6 +239,8 @@ def gameplay(surface):
 def new_wave(enemy_types):
     config.this_wave = config.next_wave or [random.choice(enemy_types)]
     enemy_count = random.randrange(10, 20) * config.data['wave']
+    if config.tactic == 'large-hp':
+        enemy_count = enemy_count // 3 + 1
     config.enemies = [random.choice(config.this_wave)
                       for _ in range(enemy_count)]
     if config.tactic == 'many-of-one':
