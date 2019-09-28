@@ -38,11 +38,27 @@ def quit_game(surface):
 
 
 def gameplay(surface):
+    from numpy import subtract
+    from copy import deepcopy
 
     data = config.data
 
-    tower_img = pygame.image.load('../assets/tiles/tower/wR.bmp').convert()
-    tower_img.set_colorkey(colors.colorkey)
+    tower_img_white = pygame.image.load('../assets/tiles/tower/wR.bmp').convert()
+    tower_img_white.set_colorkey(colors.colorkey)
+
+    tower_img_red = tower_img_white.copy()
+    tower_img_red.fill(colors.purered, special_flags=pygame.BLEND_MIN)
+
+    tower_img_blue = tower_img_white.copy()
+    tower_img_blue.fill(colors.pureblue, special_flags=pygame.BLEND_MIN)
+
+    tower_img_green = tower_img_white.copy()
+    tower_img_green.fill(colors.puregreen, special_flags=pygame.BLEND_MIN)
+
+    tower_imgs = {'white': tower_img_white,
+                  'red': tower_img_red,
+                  'blue': tower_img_blue,
+                  'green': tower_img_green}
 
     wall_tile = pygame.image.load('../assets/tiles/floor/'
                                   'dngn_rock_wall_00.bmp').convert()
@@ -99,7 +115,7 @@ def gameplay(surface):
         # this is ridiculous
 
         for tower in data['towers']:
-            blit_tower(surface, tower_img, tower)
+            blit_tower(surface, tower_imgs, tower)
 
         # wave number
         blit_info(surface,
@@ -248,12 +264,12 @@ def blit_level(surface, tiles):
     return
 
 
-def blit_tower(surface, tower_img, tower):
+def blit_tower(surface, tower_imgs, tower):
 
-    tower_loc = tower_img.get_rect(topleft=(tower.x_converted,
-                                            tower.y_converted))
+    tower_loc = tower_imgs[tower.type].get_rect(topleft=(tower.x_converted,
+                                                         tower.y_converted))
 
-    surface.blit(tower_img, tower_loc)
+    surface.blit(tower_imgs[tower.type], tower_loc)
 
     return
 
@@ -319,7 +335,7 @@ def create_tower(pos):
 
     if (data['money'] >= 10 and
             config.game_map.raw[snapped_pos[1]][snapped_pos[0]] == 'floor'):
-        tower_instance = Tower(snapped_pos, 'std')
+        tower_instance = Tower(snapped_pos, 'white')
         data['towers'].append(tower_instance)
         data['money'] = data['money'] - 10
 
