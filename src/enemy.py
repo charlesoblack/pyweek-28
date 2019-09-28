@@ -44,7 +44,7 @@ class Enemy(base.BaseEntity):
         elif tile == 'upath':
             self.y -= 1
         elif tile == 'entrance':
-            if self.x == len(config.game_map.raw[self.y]):
+            if self.x == len(config.game_map.raw[self.y]) - 1:
                 self.x -= 1
             elif self.x == 0:
                 self.x += 1
