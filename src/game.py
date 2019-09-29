@@ -284,6 +284,8 @@ def gameplay(surface):
         if data['wave'] > 10:
             data['wave'] = 1
             data['level'] += 1
+            data['towers'] = []
+            data['core'] = 30
             new_map()
 
         if config.wave_active:
