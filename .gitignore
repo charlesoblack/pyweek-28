@@ -6,3 +6,4 @@ dist/
 *.spec
 *.pckl
 rlt-diy/
+README.txt
